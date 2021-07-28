@@ -173,7 +173,7 @@ RUN \
 
 ## Tensorflow To do: 2.5.0
 RUN \
-    conda install -c conda-forge tensorflow && \
+    pip install tensorflow==2.5.0 && \
     clean-layer.sh
 
 # For Data
