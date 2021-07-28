@@ -2,18 +2,17 @@ FROM nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu18.04
 
 USER root
 
-# Basic Env
+## Basic Env
 ENV \
     SHELL="/bin/bash" \
     HOME="/root"  \
-    WORKSPACE_HOME="/workspace" \
     USER_GID=0
-
 WORKDIR $HOME
 
 # Layer cleanup script
 COPY clean-layer.sh  /usr/bin/clean-layer.sh
 COPY fix-permissions.sh  /usr/bin/fix-permissions.sh
+
 # Make clean-layer and fix-permissions executable
 RUN \
   chmod a+rwx /usr/bin/clean-layer.sh && \
@@ -108,51 +107,6 @@ RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py37_${COND
     clean-layer.sh
 ENV PATH=$CONDA_ROOT/bin:$PATH
 
-# Install Jupyter Notebook
-RUN \
-    conda install -y --update-all \
-    python=$PYTHON_VERSION \
-    notebook==6.4.0 \
-    ipywidgets==7.6.3  
-
-# install ttyd.
-RUN apt-get update && apt-get install -y \
-        yarn \
-        make \
-        g++ \
-        cmake \ 
-        pkg-config \
-        git \
-        vim-common \
-        libwebsockets-dev \
-        libjson-c-dev \
-        libssl-dev 
-RUN \
-    wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
-    && unzip 1.6.2.zip \
-    && cd ttyd-1.6.2 \
-    && mkdir build \ 
-    && cd build \
-    && cmake .. \
-    && make \
-    && make install
-
-# Install Visual Studio Code Server
-RUN curl -fsSL https://code-server.dev/install.sh | sh && \
-    clean-layer.sh
-
-# Make folders
-RUN mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
-RUN jupyter notebook --generate-config
-
-# # Jupyter Branding
-# COPY branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
-# COPY branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
-# COPY branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
-
-ENV HOME=$WORKSPACE_HOME
-WORKDIR $WORKSPACE_HOME
-
 # For Machine Learning
 ## Numpy, Scipy
 RUN \
@@ -187,6 +141,48 @@ RUN \
     pip install seaborn==0.11.1 matplotlib==3.2.2 && \
     clean-layer.sh
 
+
+# About Dev tools for Ainize Workspace
+## Install Jupyter Notebook
+RUN \
+    conda install -y --update-all \
+    python=$PYTHON_VERSION \
+    notebook==6.4.0 \
+    ipywidgets==7.6.3  
+
+## Install ttyd.
+RUN apt-get update && apt-get install -y \
+        yarn \
+        make \
+        g++ \
+        cmake \ 
+        pkg-config \
+        git \
+        vim-common \
+        libwebsockets-dev \
+        libjson-c-dev \
+        libssl-dev 
+RUN \
+    wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
+    && unzip 1.6.2.zip \
+    && cd ttyd-1.6.2 \
+    && mkdir build \ 
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install
+
+## Install Visual Studio Code Server
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    clean-layer.sh
+
+# Make folders
+ENV WORKSPACE_HOME="/workspace"
+RUN mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
+RUN jupyter notebook --generate-config
+
+ENV HOME=$WORKSPACE_HOME
+WORKDIR $WORKSPACE_HOME
 
 # Jupyter Server Port
 ENV \
