@@ -184,20 +184,6 @@ RUN jupyter notebook --generate-config
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
 
-# Jupyter Server Port
-ENV \
-    NOTEBOOK_PORT=8000 \
-    CODE_PORT=8010 \
-    TTYD_PORT=8020 
-    
-
-# Jupyter Notebook Port
-EXPOSE $NOTEBOOK_PORT
-# ttyd Server Port
-EXPOSE $TTYD_PORT
-# Visual Studio Code Server
-EXPOSE $CODE_PORT
-
 COPY start.sh /scripts/start.sh
 RUN ["chmod", "+x", "/scripts/start.sh"]
 ENTRYPOINT "/scripts/start.sh"
