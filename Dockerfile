@@ -204,4 +204,4 @@ EXPOSE $CODE_PORT
 
 COPY start.sh /scripts/start.sh
 RUN ["chmod", "+x", "/scripts/start.sh"]
-ENTRYPOINT [ "/scripts/start.sh" ]
+ENTRYPOINT "/scripts/start.sh"
