@@ -148,8 +148,7 @@ RUN \
     conda install -y --update-all \
     python=$PYTHON_VERSION \
     notebook==6.4.0 \
-    ipywidgets==7.6.3  
-COPY login.html /opt/conda/lib/python3.7/site-packages/notebook/templates/login.html
+    ipywidgets==7.6.3
 
 ## Install ttyd.
 RUN apt-get update && apt-get install -y \
@@ -180,7 +179,6 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
 # Make folders
 ENV WORKSPACE_HOME="/workspace"
 RUN mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
-RUN jupyter notebook --generate-config
 
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
