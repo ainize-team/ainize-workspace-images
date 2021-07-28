@@ -156,19 +156,19 @@ WORKDIR $WORKSPACE_HOME
 # For Machine Learning
 ## Numpy, Scipy
 RUN \
-    conda install -y --update-all \
+    pip install \
     scipy==1.4.1 \
     numpy==1.19.5 && \
     clean-layer.sh
 
 ## Scikit Learn
 RUN \
-    conda install -y scikit-learn==0.22.2.post1 && \
+    pip install scikit-learn==0.22.2.post1 && \
     clean-layer.sh
 # For Deep Learning
 ## Pytorch To Do: 1.9.0
 RUN \
-    conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch && \
+    pip install torch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 && \
     clean-layer.sh
 
 ## Tensorflow To do: 2.5.0
@@ -179,14 +179,12 @@ RUN \
 # For Data
 ## Pandas
 RUN \
-    conda install -y pandas==1.1.5 && \
+    pip install pandas==1.1.5 && \
     clean-layer.sh
 
 ## Seaborn
 RUN \
-    conda install -y --update-all \
-    seaborn==0.11.1 \
-    matplotlib==3.2.2 && \
+    pip install seaborn==0.11.1 matplotlib==3.2.2 && \
     clean-layer.sh
 
 
@@ -206,3 +204,4 @@ EXPOSE $CODE_PORT
 
 COPY start.sh /scripts/start.sh
 RUN ["chmod", "+x", "/scripts/start.sh"]
+ENTRYPOINT [ "/scripts/start.sh" ]
