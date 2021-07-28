@@ -149,6 +149,7 @@ RUN \
     python=$PYTHON_VERSION \
     notebook==6.4.0 \
     ipywidgets==7.6.3  
+COPY login.html /opt/conda/lib/python3.7/site-packages/notebook/templates/login.html
 
 ## Install ttyd.
 RUN apt-get update && apt-get install -y \
