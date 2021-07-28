@@ -67,7 +67,7 @@ ENV \
     PYTHON_VERSION=3.7.10 \
     CONDA_PYTHON_DIR=/opt/conda/lib/python3.7 \
     MINICONDA_VERSION=4.10.3 \
-    MINICONDA_MD5=122c8c9beb51e124ab32a0fa6426c656 \
+    MINICONDA_MD5=9f186c1d86c266acc47dbc1603f0e2ed \
     CONDA_VERSION=4.10.3
 
 RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py37_${CONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh && \
@@ -112,11 +112,8 @@ ENV PATH=$CONDA_ROOT/bin:$PATH
 RUN \
     conda install -y --update-all \
     python=$PYTHON_VERSION \
-    notebook==5.3.1 \
-    scipy==1.4.1 \
-    numpy==1.19.5 \
-    matplotlib==3.2.2 \
-    ipywidgets==7.6.3
+    notebook==6.4.0 \
+    ipywidgets==7.6.3  
 
 # install ttyd.
 RUN apt-get update && apt-get install -y \
@@ -129,8 +126,9 @@ RUN apt-get update && apt-get install -y \
         vim-common \
         libwebsockets-dev \
         libjson-c-dev \
-        libssl-dev \
-    && wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
+        libssl-dev 
+RUN \
+    wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
     && unzip 1.6.2.zip \
     && cd ttyd-1.6.2 \
     && mkdir build \ 
@@ -154,35 +152,41 @@ RUN jupyter notebook --generate-config
 
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
-RUN jupyter notebook --generate-config
-COPY ./jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
-
-# For Deep Learning
-## Pytorch
-RUN \
-    conda install pytorch==1.9.0 torchvision==1.9.0 torchaudio==0.9.0 cudatoolkit=10.2 -c pytorch && \
-    clean-layer.sh
-
-## Tensorflow
-RUN \
-    conda install tensorflow==2.5.0 && \
-    clean-layer.sh
 
 # For Machine Learning
+## Numpy, Scipy
+RUN \
+    conda install -y --update-all \
+    scipy==1.4.1 \
+    numpy==1.19.5 && \
+    clean-layer.sh
+
 ## Scikit Learn
 RUN \
-    conda install scikit-learn==0.22.2.post1 && \
+    conda install -y scikit-learn==0.22.2.post1 && \
+    clean-layer.sh
+# For Deep Learning
+## Pytorch To Do: 1.9.0
+RUN \
+    conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch && \
+    clean-layer.sh
+
+## Tensorflow To do: 2.5.0
+RUN \
+    conda install -c conda-forge tensorflow && \
     clean-layer.sh
 
 # For Data
 ## Pandas
 RUN \
-    conda install pandas==1.1.5 && \
+    conda install -y pandas==1.1.5 && \
     clean-layer.sh
 
 ## Seaborn
 RUN \
-    conda install seaborn==0.11.1 && \
+    conda install -y --update-all \
+    seaborn==0.11.1 \
+    matplotlib==3.2.2 && \
     clean-layer.sh
 
 
