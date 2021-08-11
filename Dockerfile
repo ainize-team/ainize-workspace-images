@@ -114,11 +114,12 @@ RUN pip install -r ./requirements.txt && clean-layer.sh && rm requirements.txt
 
 # Dev tools for Ainize Workspace.
 ## Install Jupyter Notebook (Not recommended to edit)
+RUN pip install yapf
+
 RUN \
-    pip install notebook==6.4.0 ipywidgets==7.6.3 jupyter_contrib_nbextensions==0.5.1 && \
+    pip install notebook==6.4.0 ipywidgets==7.6.3 jupyter_contrib_nbextensions==0.5.1 autopep8==1.5.7 yapf==0.31.0 && \
     jupyter contrib nbextension install && \
     clean-layer.sh
-
 
 ## Install ttyd. (Not recommended to edit)
 RUN apt-get update && apt-get install -y --no-install-recommends \
