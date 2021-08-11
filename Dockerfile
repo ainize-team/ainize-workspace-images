@@ -58,97 +58,13 @@ RUN \
     # Cleanup
     clean-layer.sh
 
-# About Python
-ENV \
-    # TODO: CONDA_DIR is deprecated and should be removed in the future
-    CONDA_DIR=/opt/conda \
-    CONDA_ROOT=/opt/conda \
-    PYTHON_VERSION=3.7.10 \
-    CONDA_PYTHON_DIR=/opt/conda/lib/python3.7 \
-    MINICONDA_VERSION=4.10.3 \
-    MINICONDA_MD5=9f186c1d86c266acc47dbc1603f0e2ed \
-    CONDA_VERSION=4.10.3
-
-RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py37_${CONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh && \
-    echo "${MINICONDA_MD5} *miniconda.sh" | md5sum -c - && \
-    /bin/bash ~/miniconda.sh -b -p $CONDA_ROOT && \
-    export PATH=$CONDA_ROOT/bin:$PATH && \
-    rm ~/miniconda.sh && \
-    # Configure conda
-    # TODO: Add conde-forge as main channel -> remove if testted
-    # TODO, use condarc file
-    $CONDA_ROOT/bin/conda config --system --add channels conda-forge && \
-    $CONDA_ROOT/bin/conda config --system --set auto_update_conda False && \
-    $CONDA_ROOT/bin/conda config --system --set show_channel_urls True && \
-    $CONDA_ROOT/bin/conda config --system --set channel_priority strict && \
-    # Deactivate pip interoperability (currently default), otherwise conda tries to uninstall pip packages
-    $CONDA_ROOT/bin/conda config --system --set pip_interop_enabled false && \
-    # Update conda
-    $CONDA_ROOT/bin/conda update -y -n base -c defaults conda && \
-    $CONDA_ROOT/bin/conda update -y setuptools && \
-    $CONDA_ROOT/bin/conda install -y conda-build && \
-    # Update selected packages - install python 3.7.9
-    $CONDA_ROOT/bin/conda install -y --update-all python=$PYTHON_VERSION && \
-    # Link Conda
-    ln -s $CONDA_ROOT/bin/python /usr/local/bin/python && \
-    ln -s $CONDA_ROOT/bin/conda /usr/bin/conda && \
-    # Update
-    $CONDA_ROOT/bin/conda install -y pip && \
-    $CONDA_ROOT/bin/pip install --upgrade pip && \
-    chmod -R a+rwx /usr/local/bin/ && \
-    # Cleanup - Remove all here since conda is not in path as of now
-    # find /opt/conda/ -follow -type f -name '*.a' -delete && \
-    # find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-    $CONDA_ROOT/bin/conda clean -y --packages && \
-    $CONDA_ROOT/bin/conda clean -y -a -f  && \
-    $CONDA_ROOT/bin/conda build purge-all && \
-    # Fix permissions
-    fix-permissions.sh $CONDA_ROOT && \
-    clean-layer.sh
-ENV PATH=$CONDA_ROOT/bin:$PATH
-
-# For Machine Learning
-## Numpy, Scipy
-RUN \
-    pip install \
-    scipy==1.4.1 \
-    numpy==1.19.5 && \
-    clean-layer.sh
-
-## Scikit Learn
-RUN \
-    pip install scikit-learn==0.22.2.post1 && \
-    clean-layer.sh
-# For Deep Learning
-## Pytorch To Do: 1.9.0
-RUN \
-    pip install torch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 && \
-    clean-layer.sh
-
-## Tensorflow To do: 2.5.0
-RUN \
-    pip install tensorflow==2.5.0 && \
-    clean-layer.sh
-
-# For Data
-## Pandas
-RUN \
-    pip install pandas==1.1.5 && \
-    clean-layer.sh
-
-## Seaborn
-RUN \
-    pip install seaborn==0.11.1 matplotlib==3.2.2 && \
-    clean-layer.sh
-
+COPY requirements.txt /usr/bin/requirements.txt
+RUN pip install -r /usr/bin/requirements.txt && clean-layer.sh
 
 # About Dev tools for Ainize Workspace
 ## Install Jupyter Notebook
 RUN \
-    conda install -y --update-all \
-    python=$PYTHON_VERSION \
-    notebook==6.4.0 \
-    ipywidgets==7.6.3
+    pip install notebook==6.4.0 ipywidgets==7.6.3
 
 ## Install ttyd.
 RUN apt-get update && apt-get install -y \
