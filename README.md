@@ -29,7 +29,7 @@ docker build -t <image-name> .
 ```
 Run Docker 
 ```bash
-docker run -d -p 8000:8000 -p 8010:8010 -p 8020:8020 <tage-name>
+docker run -d -p 8000:8000 -p 8010:8010 -p 8020:8020 <image-name>
 ```
 
 Run Docker with Password
