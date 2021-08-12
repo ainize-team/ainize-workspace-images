@@ -1,5 +1,5 @@
-# ainize-workspace-images
-Docker images for Ainize Workspace
+# ML Workspace
+This branch is for creating Ainize Workspace images for machine learning developers or machine learning  researcher.
 
 ## Development Extension
 * [Jupyter Notebook](https://jupyter.org/)
