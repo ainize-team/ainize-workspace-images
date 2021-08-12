@@ -146,9 +146,13 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     clean-layer.sh
 
 # Make folders (Not recommended to edit)
-ENV WORKSPACE_HOME="/workspace"
-RUN mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
-
+ENV WORKSPACE_HOME="/ainize-workspace"
+RUN \
+    if [! -e $WORKSPACE_HOME] ; then \
+        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
+    else \
+        chmod a+rwx $WORKSPACE_HOME; \
+    fi
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
 
