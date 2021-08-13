@@ -119,6 +119,10 @@ RUN \
     jupyter contrib nbextension install && \
     clean-layer.sh
 
+# # Jupyter Branding
+# COPY branding/logo.png $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/logo.png"
+# COPY branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/base/images/favicon.ico"
+# COPY branding/favicon.ico $CONDA_PYTHON_DIR"/site-packages/notebook/static/favicon.ico"
 ## Install ttyd. (Not recommended to edit)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         yarn \
@@ -142,13 +146,14 @@ RUN \
     && make install
 
 ## Install Visual Studio Code Server (Not recommended to edit)
+ENV PORT 8010
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     clean-layer.sh
 
 # Make folders (Not recommended to edit)
 ENV WORKSPACE_HOME="/workspace"
 RUN \
-    if [! -e $WORKSPACE_HOME] ; then \
+    if [ ! -f $WORKSPACE_HOME ] ; then \
         mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
     else \
         chmod a+rwx $WORKSPACE_HOME; \
