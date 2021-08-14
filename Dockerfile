@@ -148,7 +148,6 @@ RUN \
 ## Install Visual Studio Code Server (Not recommended to edit)
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     clean-layer.sh
-ENV PORT 8010
 
 # Make folders (Not recommended to edit)
 ENV WORKSPACE_HOME="/workspace"
