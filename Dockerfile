@@ -119,6 +119,13 @@ RUN \
     jupyter contrib nbextension install && \
     clean-layer.sh
 
+## For Branding
+COPY branding/logo.png /tmp/logo.png
+COPY branding/favicon.ico /tmp/favicon.ico
+RUN /bin/bash -c 'cp /tmp/logo.png $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/logo.png'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/favicon.ico'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/favicon.ico'
+
 ## Install ttyd. (Not recommended to edit)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         yarn \
@@ -148,10 +155,10 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
 # Make folders (Not recommended to edit)
 ENV WORKSPACE_HOME="/ainize-workspace"
 RUN \
-    if [! -e $WORKSPACE_HOME] ; then \
-        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
+    if [ -e $WORKSPACE_HOME ] ; then \
+        chmod a+rwx $WORKSPACE_HOME; \   
     else \
-        chmod a+rwx $WORKSPACE_HOME; \
+        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
     fi
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
