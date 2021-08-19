@@ -8,6 +8,11 @@ then
   git config --global user.email "$USER_EMAIL"
   git config --global user.name "$USER_NAME"
 fi
+
+if [ "$IPYNB_FILE" ]
+then
+  wget "${IPYNB_FILE}"
+fi
 chmod -R 555 /workspace
 
 # Do not change the port number 8000.
