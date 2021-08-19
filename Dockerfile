@@ -18,7 +18,7 @@ RUN \
   chmod a+rwx /usr/bin/clean-layer.sh && \
   chmod a+rwx /usr/bin/fix-permissions.sh
 
-# Generate and Set locals
+# Generate and Set locals (Not recommended to edit)
 # https://stackoverflow.com/questions/28405902/how-to-set-the-locale-inside-a-debian-ubuntu-docker-container#38553499
 RUN \
     apt-get update && \
@@ -35,7 +35,7 @@ ENV LC_ALL="en_US.UTF-8" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en"
 
-# Install basics
+# Install basics (Not recommended to edit)
 RUN \
     apt-get update --fix-missing && \
     apt-get install -y sudo apt-utils && \
@@ -58,6 +58,8 @@ RUN \
     # Cleanup
     clean-layer.sh
 
+
+# Instal Python(Miniconda)
 # About Python
 ENV \
     # TODO: CONDA_DIR is deprecated and should be removed in the future
@@ -87,7 +89,6 @@ RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py37_${COND
     $CONDA_ROOT/bin/conda update -y -n base -c defaults conda && \
     $CONDA_ROOT/bin/conda update -y setuptools && \
     $CONDA_ROOT/bin/conda install -y conda-build && \
-    # Update selected packages - install python 3.7.9
     $CONDA_ROOT/bin/conda install -y --update-all python=$PYTHON_VERSION && \
     # Link Conda
     ln -s $CONDA_ROOT/bin/python /usr/local/bin/python && \
@@ -107,51 +108,26 @@ RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py37_${COND
     clean-layer.sh
 ENV PATH=$CONDA_ROOT/bin:$PATH
 
-# For Machine Learning
-## Numpy, Scipy
+# Install package from requirements.txt (Not recommended to edit)
+COPY requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt && clean-layer.sh && rm requirements.txt
+
+# Dev tools for Ainize Workspace.
+## Install Jupyter Notebook (Not recommended to edit)
 RUN \
-    pip install \
-    scipy==1.4.1 \
-    numpy==1.19.5 && \
+    pip install notebook==6.4.0 ipywidgets==7.6.3 jupyter_contrib_nbextensions==0.5.1 autopep8==1.5.7 yapf==0.31.0 && \
+    jupyter contrib nbextension install && \
     clean-layer.sh
 
-## Scikit Learn
-RUN \
-    pip install scikit-learn==0.22.2.post1 && \
-    clean-layer.sh
-# For Deep Learning
-## Pytorch To Do: 1.9.0
-RUN \
-    pip install torch==1.9.0 torchvision==0.10.0 torchaudio==0.9.0 && \
-    clean-layer.sh
+## For Branding
+COPY branding/logo.png /tmp/logo.png
+COPY branding/favicon.ico /tmp/favicon.ico
+RUN /bin/bash -c 'cp /tmp/logo.png $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/logo.png'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/favicon.ico'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/favicon.ico'
 
-## Tensorflow To do: 2.5.0
-RUN \
-    pip install tensorflow==2.5.0 && \
-    clean-layer.sh
-
-# For Data
-## Pandas
-RUN \
-    pip install pandas==1.1.5 && \
-    clean-layer.sh
-
-## Seaborn
-RUN \
-    pip install seaborn==0.11.1 matplotlib==3.2.2 && \
-    clean-layer.sh
-
-
-# About Dev tools for Ainize Workspace
-## Install Jupyter Notebook
-RUN \
-    conda install -y --update-all \
-    python=$PYTHON_VERSION \
-    notebook==6.4.0 \
-    ipywidgets==7.6.3
-
-## Install ttyd.
-RUN apt-get update && apt-get install -y \
+## Install ttyd. (Not recommended to edit)
+RUN apt-get update && apt-get install -y --no-install-recommends \
         yarn \
         make \
         g++ \
@@ -172,14 +148,18 @@ RUN \
     && make \
     && make install
 
-## Install Visual Studio Code Server
+## Install Visual Studio Code Server (Not recommended to edit)
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     clean-layer.sh
 
-# Make folders
+# Make folders (Not recommended to edit)
 ENV WORKSPACE_HOME="/workspace"
-RUN mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME
-
+RUN \
+    if [ -e $WORKSPACE_HOME ] ; then \
+        chmod a+rwx $WORKSPACE_HOME; \   
+    else \
+        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
+    fi
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
 
