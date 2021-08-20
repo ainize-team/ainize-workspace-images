@@ -11,7 +11,7 @@ fi
 
 if [ "$IPYNB_FILE" ]
 then
-  wget "${IPYNB_FILE}"
+  wget -nc "${IPYNB_FILE}"
 fi
 chmod -R 555 /workspace
 
