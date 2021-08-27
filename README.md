@@ -18,7 +18,7 @@ scipy                         1.4.1
 seaborn                       0.11.1
 tensorflow                    2.6.0
 torch                         1.9.0
-torchaudio                    0.9.0
+torchtext                     0.10.0
 torchvision                   0.10.0
 ```
 
@@ -53,23 +53,25 @@ Visual Studio Code : http://server-address:8010/
 
 Terminal - ttyd : http://server-address:8020/
 
-## How to use in Ainize Workspace
-If you want to use this image in [Ainize Workspace](https://ainize.ai/workspace), please follow the steps below.
+## How to use my custom image in Ainize Workspace
+Do you want to use the image you created? If so, please follow the instructions.
 
-1. Go to the [Ainize Workspace](https://ainize.ai/workspace) and click the "Create your workspace" button.
+1. Click the "Create your workspace" button on the [Ainize Workspace page](https://ainize.ai/workspace).
 ![first](https://user-images.githubusercontent.com/20783224/130539311-eebccc01-b037-4452-a8d9-161295fa42bb.png)
 
-2. Select "import from github" as the container option.
+2. As the Container option, select "Import from github".
 ![second](https://user-images.githubusercontent.com/20783224/130539536-1d466e72-5370-485e-b989-fc9c73d3eabe.png)
 
-3. Click "Start with repo url" button.
+3. Click the "Start with repo url" button.
 ![third](https://user-images.githubusercontent.com/20783224/130539682-7ee3c764-8073-4787-90ef-b299e71607ef.png)
 
-4. Paste "https://github.com/ainize-team/ainize-workspace-images" into "Enter a Github repo url" and select the "ml-workspace" branch.
+4. Put "https://github.com/ainize-team/ainize-workspace-images" in "Enter a Github repo url". And select the "ml-workspace" branch.
 ![fourth](https://user-images.githubusercontent.com/20783224/130539818-d4c3d3fb-2067-459c-9317-b630658fa040.png)
 
-5. Select the required tool and press OK button.
+5. Select the required tool(s) and click the OK button.
 ![fiveth](https://user-images.githubusercontent.com/20783224/130540107-d2f57207-7c2d-44ef-9655-5d1bb4caa931.png)
 
-6. Select the machine type and click the "Start my work" button.
+6. Click "Start my work" after selecting the machine type. 
 ![sixth](https://user-images.githubusercontent.com/20783224/130540210-b4918b3f-d640-40ea-90ca-a8799c1d0a4b.png)
+
+Now, enjoy your own Ainize Workspace! 🎉
