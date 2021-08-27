@@ -21,6 +21,7 @@ AUTH=password
 fi
 
 # Do not change the port number from 8010.
+export PORT="8010"
 code-server /workspace/ --bind-addr=0.0.0.0:8010 --auth $AUTH &
 
 if [ -z "$PASSWORD" ]

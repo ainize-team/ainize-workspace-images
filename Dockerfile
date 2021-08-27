@@ -15,8 +15,8 @@ COPY fix-permissions.sh  /usr/bin/fix-permissions.sh
 
 # Make clean-layer and fix-permissions executable
 RUN \
-  chmod a+rwx /usr/bin/clean-layer.sh && \
-  chmod a+rwx /usr/bin/fix-permissions.sh
+    chmod a+rwx /usr/bin/clean-layer.sh && \
+    chmod a+rwx /usr/bin/fix-permissions.sh
 
 # Generate and Set locals (Not recommended to edit)
 # https://stackoverflow.com/questions/28405902/how-to-set-the-locale-inside-a-debian-ubuntu-docker-container#38553499
@@ -42,15 +42,15 @@ RUN \
     apt-get upgrade -y && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        # This is necessary for apt to access HTTPS sources:
-        apt-transport-https \
-        curl \
-        wget \
-        cron \
-        git \
-        zip \
-        gzip \
-        unzip && \
+    # This is necessary for apt to access HTTPS sources:
+    apt-transport-https \
+    curl \
+    wget \
+    cron \
+    git \
+    zip \
+    gzip \
+    unzip && \
     # Fix all execution permissions
     chmod -R a+rwx /usr/local/bin/ && \
     # Fix permissions
@@ -74,16 +74,16 @@ RUN \
 
 ## Install ttyd. (Not recommended to edit)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        yarn \
-        make \
-        g++ \
-        cmake \ 
-        pkg-config \
-        git \
-        vim-common \
-        libwebsockets-dev \
-        libjson-c-dev \
-        libssl-dev 
+    yarn \
+    make \
+    g++ \
+    cmake \ 
+    pkg-config \
+    git \
+    vim-common \
+    libwebsockets-dev \
+    libjson-c-dev \
+    libssl-dev 
 RUN \
     wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
     && unzip 1.6.2.zip \
@@ -102,9 +102,9 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
 ENV WORKSPACE_HOME="/ainize-workspace"
 RUN \
     if [! -e $WORKSPACE_HOME] ; then \
-        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
+    mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
     else \
-        chmod a+rwx $WORKSPACE_HOME; \
+    chmod a+rwx $WORKSPACE_HOME; \
     fi
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
