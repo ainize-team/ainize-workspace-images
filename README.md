@@ -1,5 +1,5 @@
-# ML Workspace
-This branch is for creating Ainize Workspace images for machine learning developers or machine learning  researcher.
+# Huggingface Torch
+This branch is for creating Ainize Workspace images for machine learning developers or machine learning researcher using hugginface.
 
 ## Development Extension
 * [Jupyter Notebook](https://jupyter.org/)
@@ -72,6 +72,6 @@ Do you want to use the image you created? If so, please follow the instructions.
 
 
 6. Click "Start my work" after selecting the machine type. 
-![sixth](https://user-images.githubusercontent.com/20783224/130540210-b4918b3f-d640-40ea-90ca-a8799c1d0a4b.png)
+![sixth](https://user-images.githubusercontent.com/20783224/132829350-1454859c-6891-4c56-8d6a-c063017afbce.png)
 
 Now, enjoy your own Ainize Workspace! 🎉
