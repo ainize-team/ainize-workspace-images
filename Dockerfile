@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.9.0-cuda10.2-cudnn7-runtime
+FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu18.04
 
 USER root
 
@@ -15,8 +15,8 @@ COPY fix-permissions.sh  /usr/bin/fix-permissions.sh
 
 # Make clean-layer and fix-permissions executable
 RUN \
-    chmod a+rwx /usr/bin/clean-layer.sh && \
-    chmod a+rwx /usr/bin/fix-permissions.sh
+  chmod a+rwx /usr/bin/clean-layer.sh && \
+  chmod a+rwx /usr/bin/fix-permissions.sh
 
 # Generate and Set locals (Not recommended to edit)
 # https://stackoverflow.com/questions/28405902/how-to-set-the-locale-inside-a-debian-ubuntu-docker-container#38553499
@@ -42,24 +42,21 @@ RUN \
     apt-get upgrade -y && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    # This is necessary for apt to access HTTPS sources:
-    apt-transport-https \
-    curl \
-    wget \
-    cron \
-    git \
-    zip \
-    gzip \
-    unzip && \
+        # This is necessary for apt to access HTTPS sources:
+        apt-transport-https \
+        curl \
+        wget \
+        cron \
+        git \
+        zip \
+        gzip \
+        unzip && \
     # Fix all execution permissions
     chmod -R a+rwx /usr/local/bin/ && \
     # Fix permissions
     fix-permissions.sh $HOME && \
     # Cleanup
     clean-layer.sh
-
-# If python is not installed in the image you are using, install python here.
-# <Code for Installing Python>
 
 # Install package from requirements.txt (Not recommended to edit)
 COPY requirements.txt ./requirements.txt
@@ -68,22 +65,29 @@ RUN pip install -r ./requirements.txt && clean-layer.sh && rm requirements.txt
 # Dev tools for Ainize Workspace.
 ## Install Jupyter Notebook (Not recommended to edit)
 RUN \
-    pip install notebook==6.4.0 ipywidgets==7.6.3 jupyter_contrib_nbextensions==0.5.1 autopep8==1.5.7 yapf==0.31.0 && \
+    pip install notebook==6.4.3 voila==0.2.11 ipywidgets==7.6.4 jupyter_contrib_nbextensions==0.5.1 autopep8==1.5.7 yapf==0.31.0 && \
     jupyter contrib nbextension install && \
     clean-layer.sh
 
+## For Branding
+COPY branding/logo.png /tmp/logo.png
+COPY branding/favicon.ico /tmp/favicon.ico
+RUN /bin/bash -c 'cp /tmp/logo.png $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/logo.png'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/base/images/favicon.ico'
+RUN /bin/bash -c 'cp /tmp/favicon.ico $(python -c "import sys; print(sys.path[-1])")/notebook/static/favicon.ico'
+
 ## Install ttyd. (Not recommended to edit)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    yarn \
-    make \
-    g++ \
-    cmake \ 
-    pkg-config \
-    git \
-    vim-common \
-    libwebsockets-dev \
-    libjson-c-dev \
-    libssl-dev 
+        yarn \
+        make \
+        g++ \
+        cmake \ 
+        pkg-config \
+        git \
+        vim-common \
+        libwebsockets-dev \
+        libjson-c-dev \
+        libssl-dev 
 RUN \
     wget https://github.com/tsl0922/ttyd/archive/refs/tags/1.6.2.zip \
     && unzip 1.6.2.zip \
@@ -99,12 +103,12 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     clean-layer.sh
 
 # Make folders (Not recommended to edit)
-ENV WORKSPACE_HOME="/ainize-workspace"
+ENV WORKSPACE_HOME="/workspace"
 RUN \
-    if [! -e $WORKSPACE_HOME] ; then \
-    mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
+    if [ -e $WORKSPACE_HOME ] ; then \
+        chmod a+rwx $WORKSPACE_HOME; \   
     else \
-    chmod a+rwx $WORKSPACE_HOME; \
+        mkdir $WORKSPACE_HOME && chmod a+rwx $WORKSPACE_HOME; \
     fi
 ENV HOME=$WORKSPACE_HOME
 WORKDIR $WORKSPACE_HOME
