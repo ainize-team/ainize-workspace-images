@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu18.04
+FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-runtime
 
 USER root
 
