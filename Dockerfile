@@ -7,6 +7,7 @@ USER root
 ENV \
     SHELL="/bin/bash" \
     HOME="/root"  \
+    DEBIAN_FRONTEND="noninteractive"  \
     USER_GID=0 
 
 WORKDIR $HOME
@@ -105,8 +106,6 @@ RUN \
         libhiredis-dev \
         # postgresql client
         libpq-dev \
-        # mysql client (10MB)
-        libmysqlclient-dev \
         # mariadb client (7MB)
         # libmariadbclient-dev \
         # image processing library (6MB), required for tesseract
@@ -169,7 +168,25 @@ RUN \
         libbz2-dev \
         liblzma-dev \
         zlib1g-dev \ 
+        # OpenMPI support
+        libopenmpi-dev \
+        openmpi-bin \
+        # libartals
+        liblapack-dev \
+        libatlas-base-dev \
+        libeigen3-dev \
+        libblas-dev \
+        # HDF5
+        libhdf5-dev \
+        # TBB   
+        libtbb-dev \
+        # TODO: installs tenserflow 2.4 - Required for tensorflow graphics (9MB)
+        libopenexr-dev \
+        # GCC OpenMP
+        libgomp1 \
         # data science
+        libopenmpi-dev \
+        openmpi-bin \
         libomp-dev \
         libopenblas-base && \
     # Update git to newest version
@@ -184,10 +201,6 @@ RUN \
     fix-permissions.sh $HOME && \
     # Cleanup
     clean-layer.sh
-
-# Add tini
-RUN wget --no-verbose https://github.com/krallin/tini/releases/download/v0.19.0/tini -O /tini && \
-    chmod +x /tini
 
 ### END BASICS ###
 
