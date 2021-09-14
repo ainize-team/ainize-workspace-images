@@ -366,8 +366,14 @@ RUN wget --no-verbose https://repo.anaconda.com/miniconda/Miniconda3-py38_${COND
 
 ENV PATH=$CONDA_ROOT/bin:$PATH
 
+# Install package from requirements.txt (Not recommended to edit)
+COPY requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt && \
+    clean-layer.sh && \
+    rm requirements.txt
+
 # There is nothing added yet to LD_LIBRARY_PATH, so we can overwrite
-ENV LD_LIBRARY_PATH=$CONDA_ROOT/lib
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$CONDA_ROOT/lib
 
 ### END RUNTIMES ###
 
