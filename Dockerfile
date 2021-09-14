@@ -168,8 +168,10 @@ RUN \
         unp \
         libbz2-dev \
         liblzma-dev \
-        zlib1g-dev && \
-
+        zlib1g-dev \ 
+        # data science
+        libomp-dev \
+        libopenblas-base && \
     # Update git to newest version
     add-apt-repository -y ppa:git-core/ppa  && \
     apt-get update && \
