@@ -10,7 +10,7 @@ WORKDIR $HOME
 
 # Install package from requirements.txt
 COPY requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt && clean-layer.sh && rm requirements.txt
+RUN pip install -r ./requirements.txt && rm requirements.txt
 
 ENV WORKSPACE_HOME="/workspace"
 WORKDIR $WORKSPACE_HOME
