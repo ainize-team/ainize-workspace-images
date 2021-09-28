@@ -1,3 +1,7 @@
+
+jax==0.2.20
+--find-links  https://storage.googleapis.com/jax-releases/jax_releases.html 
+jaxlib==0.1.71+cuda111
 matplotlib==3.2.2
 nltk==3.2.5
 numba==0.51.2
