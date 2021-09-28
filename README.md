@@ -1,14 +1,14 @@
-# ML Workspace
+## ML Workspace
 
 This branch is for creating Ainize Workspace images for machine learning developers or machine learning researcher.
 
-## Development Extension
+### Development Extension
 
 - [Jupyter Notebook](https://jupyter.org/)
 - [Visual Studio Code](https://github.com/cdr/code-server)
 - [Terminal - ttyd](https://github.com/tsl0922/ttyd)
 
-## Major Package List
+### Major Package List
 
 ```
 Package                           Version
@@ -24,7 +24,7 @@ torch                             1.9.0
 xgboost                           0.90
 ```
 
-## How to Test Your Image
+### How to Test Your Image
 
 Build Docker Image
 
@@ -62,7 +62,7 @@ Visual Studio Code : http://server-address:8010/
 
 Terminal - ttyd : http://server-address:8020/
 
-## How to use my custom image in Ainize Workspace
+### How to use my custom image in Ainize Workspace
 
 Do you want to use the image you created? If so, please follow the instructions.
 
