@@ -1,6 +1,6 @@
 jax==0.2.20
 --find-links  https://storage.googleapis.com/jax-releases/jax_releases.html 
-jaxlib==0.1.70+cuda110
+jaxlib==0.1.70+cuda111
 matplotlib==3.2.2
 mkl==2021.3.0
 mkl-fft==1.3.0
