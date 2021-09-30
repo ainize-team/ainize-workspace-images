@@ -1,0 +1,14 @@
+
+jax==0.2.20
+--find-links  https://storage.googleapis.com/jax-releases/jax_releases.html 
+jaxlib==0.1.71+cuda111
+matplotlib==3.2.2
+nltk==3.2.5
+numba==0.51.2
+numpy==1.19.5
+pandas==1.1.5
+scikit-learn==0.22.2.post1
+scipy==1.4.1
+seaborn==0.11.2
+tensorflow==2.6.0
+Pillow==7.1.2
