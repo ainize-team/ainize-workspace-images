@@ -19,8 +19,8 @@ pandas                            1.3.3
 Pillow                            7.1.2
 scikit-learn                      0.22.2.post1
 scipy                             1.4.1
-tensorflow                        2.6.0
-torch                             1.9.0
+tensorflow                        2.7.0
+torch                             1.10.0
 xgboost                           0.90
 ```
 
