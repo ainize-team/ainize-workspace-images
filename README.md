@@ -4,7 +4,7 @@ This branch is for creating Ainize Workspace images for machine learning develop
 
 ### Development Extension
 
-- [Jupyter Notebook](https://jupyter.org/)
+- [Jupyter Notebook and Lab](https://jupyter.org/)
 - [Visual Studio Code](https://github.com/cdr/code-server)
 - [Terminal - ttyd](https://github.com/tsl0922/ttyd)
 
